@@ -1,0 +1,162 @@
+# Vou analisar os arquivos para entender a estrutura completa dos indicadores
+import pandas as pd
+
+# Primeiro, vou criar uma lista dos indicadores identificados nos arquivos
+indicadores = [
+    {
+        "codigo": "C3",
+        "titulo_resumido": "Cuidado da Gestante e Puérpera",
+        "titulo_completo": "Cuidado à Gestante e Puérpera na Atenção Primária à Saúde (APS)",
+        "categoria": "Cuidado",
+        "polaridade": "Maior-melhor",
+        "periodicidade_atualizacao": "Quadrimestral",
+        "periodicidade_monitoramento": "Mensal",
+        "periodicidade_avaliacao": "Quadrimestral"
+    },
+    {
+        "codigo": "M2",
+        "titulo_resumido": "Ações interprofissionais realizadas pela eMulti",
+        "titulo_completo": "Ações interprofissionais realizadas pela eMulti na Atenção Primária à Saúde (APS)",
+        "categoria": "Multiprofissional",
+        "polaridade": "Maior-melhor",
+        "periodicidade_atualizacao": "Mensal",
+        "periodicidade_monitoramento": "Mensal",
+        "periodicidade_avaliacao": "Quadrimestral"
+    },
+    {
+        "codigo": "C7",
+        "titulo_resumido": "Cuidado da mulher na prevenção do câncer",
+        "titulo_completo": "Cuidado da mulher na prevenção do câncer na Atenção Primária à Saúde (APS)",
+        "categoria": "Cuidado",
+        "polaridade": "Maior-melhor",
+        "periodicidade_atualizacao": "Mensal",
+        "periodicidade_monitoramento": "Mensal",
+        "periodicidade_avaliacao": "Quadrimestral"
+    },
+    {
+        "codigo": "C4",
+        "titulo_resumido": "Cuidado da pessoa com diabetes",
+        "titulo_completo": "Cuidado da pessoa com diabetes na Atenção Primária à Saúde",
+        "categoria": "Cuidado",
+        "polaridade": "Maior-melhor",
+        "periodicidade_atualizacao": "Mensal",
+        "periodicidade_monitoramento": "Mensal",
+        "periodicidade_avaliacao": "Quadrimestral"
+    },
+    {
+        "codigo": "C5",
+        "titulo_resumido": "Cuidado da pessoa com hipertensão",
+        "titulo_completo": "Cuidado da pessoa com hipertensão na Atenção Primária à Saúde",
+        "categoria": "Cuidado",
+        "polaridade": "Maior-melhor",
+        "periodicidade_atualizacao": "Mensal",
+        "periodicidade_monitoramento": "Mensal",
+        "periodicidade_avaliacao": "Quadrimestral"
+    },
+    {
+        "codigo": "C6",
+        "titulo_resumido": "Cuidado da pessoa idosa",
+        "titulo_completo": "Cuidado Integral à Pessoa Idosa na Atenção Primária à Saúde (APS)",
+        "categoria": "Cuidado",
+        "polaridade": "Maior-melhor",
+        "periodicidade_atualizacao": "Mensal",
+        "periodicidade_monitoramento": "Mensal",
+        "periodicidade_avaliacao": "Quadrimestral"
+    },
+    {
+        "codigo": "C2",
+        "titulo_resumido": "Cuidado no desenvolvimento infantil",
+        "titulo_completo": "Cuidado no desenvolvimento infantil na Atenção Primária à Saúde",
+        "categoria": "Cuidado",
+        "polaridade": "Maior-melhor",
+        "periodicidade_atualizacao": "Mensal",
+        "periodicidade_monitoramento": "Mensal",
+        "periodicidade_avaliacao": "Quadrimestral"
+    },
+    {
+        "codigo": "B4",
+        "titulo_resumido": "Escovação Supervisionada em faixa etária escolar",
+        "titulo_completo": "Escovação Supervisionada por equipes de Saúde Bucal (eSB) em faixa etária escolar (de 6 a 12 anos) no âmbito da Atenção Primária à Saúde (APS)",
+        "categoria": "Saúde Bucal",
+        "polaridade": "Maior-melhor",
+        "periodicidade_atualizacao": "Mensal",
+        "periodicidade_monitoramento": "Mensal",
+        "periodicidade_avaliacao": "Quadrimestral"
+    },
+    {
+        "codigo": "C1",
+        "titulo_resumido": "Mais Acesso à APS",
+        "titulo_completo": "Mais Acesso à Atenção Primária à Saúde (APS)",
+        "categoria": "Acesso",
+        "polaridade": "Maior-melhor",
+        "periodicidade_atualizacao": "Mensal",
+        "periodicidade_monitoramento": "Mensal",
+        "periodicidade_avaliacao": "Quadrimestral"
+    },
+    {
+        "codigo": "M1",
+        "titulo_resumido": "Média de atendimentos por pessoa assistida pela eMulti",
+        "titulo_completo": "Média de atendimentos por pessoa assistida pela eMulti na Atenção Primária à Saúde (APS)",
+        "categoria": "Multiprofissional",
+        "polaridade": "Maior-melhor",
+        "periodicidade_atualizacao": "Mensal",
+        "periodicidade_monitoramento": "Mensal",
+        "periodicidade_avaliacao": "Quadrimestral"
+    },
+    {
+        "codigo": "B1",
+        "titulo_resumido": "Primeira consulta programada",
+        "titulo_completo": "Cobertura de primeira consulta odontológica programada por equipe de Saúde Bucal (eSB) na Atenção Primária à Saúde (APS)",
+        "categoria": "Saúde Bucal",
+        "polaridade": "Maior-melhor",
+        "periodicidade_atualizacao": "Mensal",
+        "periodicidade_monitoramento": "Mensal",
+        "periodicidade_avaliacao": "Quadrimestral"
+    },
+    {
+        "codigo": "B5",
+        "titulo_resumido": "Procedimentos odontológicos preventivos na APS",
+        "titulo_completo": "Procedimentos odontológicos preventivos por equipes de Saúde Bucal (eSB) na Atenção Primária à Saúde (APS)",
+        "categoria": "Saúde Bucal",
+        "polaridade": "Maior-melhor",
+        "periodicidade_atualizacao": "Mensal",
+        "periodicidade_monitoramento": "Mensal",
+        "periodicidade_avaliacao": "Quadrimestral"
+    },
+    {
+        "codigo": "B3",
+        "titulo_resumido": "Taxa de exodontia",
+        "titulo_completo": "Taxa de exodontias realizadas por equipe de Saúde Bucal (eSB) na Atenção Primária à Saúde (APS)",
+        "categoria": "Saúde Bucal",
+        "polaridade": "Menor-melhor",
+        "periodicidade_atualizacao": "Mensal",
+        "periodicidade_monitoramento": "Mensal",
+        "periodicidade_avaliacao": "Quadrimestral"
+    },
+    {
+        "codigo": "B6",
+        "titulo_resumido": "Tratamento Restaurador Atraumático",
+        "titulo_completo": "Tratamentos Restauradores Atraumáticos (ART) realizados por equipe de Saúde Bucal (eSB) na Atenção Primária à Saúde (APS)",
+        "categoria": "Saúde Bucal",
+        "polaridade": "Maior-melhor",
+        "periodicidade_atualizacao": "Mensal",
+        "periodicidade_monitoramento": "Mensal",
+        "periodicidade_avaliacao": "Quadrimestral"
+    },
+    {
+        "codigo": "B2",
+        "titulo_resumido": "Tratamento concluído",
+        "titulo_completo": "Razão entre tratamentos concluídos por equipe de Saúde Bucal (eSB) na Atenção Primária à Saúde (APS)",
+        "categoria": "Saúde Bucal",
+        "polaridade": "Maior-melhor",
+        "periodicidade_atualizacao": "Mensal",
+        "periodicidade_monitoramento": "Mensal",
+        "periodicidade_avaliacao": "Quadrimestral"
+    }
+]
+
+df_indicadores = pd.DataFrame(indicadores)
+print("INDICADORES IDENTIFICADOS:")
+print(df_indicadores[['codigo', 'titulo_resumido', 'categoria', 'polaridade']])
+print(f"\nTotal de indicadores: {len(indicadores)}")
+print(f"Categorias: {df_indicadores['categoria'].unique()}")
